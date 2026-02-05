@@ -38,6 +38,8 @@ builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<UsuarioLoginValideitor>();
 
 
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
