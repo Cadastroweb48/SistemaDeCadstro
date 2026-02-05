@@ -11,8 +11,8 @@ namespace PrimeiraApi.Data
 		}
 
 		public DbSet<Usuario> Usuarios { get; set; }
-		public DbSet<Produto> Produto { get; set; }
-		public DbSet<Categoria> Categoria { get; set; }
+		public DbSet<Produto>? Produto { get; set; }
+		public DbSet<Categoria>? Categoria { get; set; }
 		
 	}
 }
