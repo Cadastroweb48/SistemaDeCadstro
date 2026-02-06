@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrimeiraApi.Data;
 using PrimeiraApi.Repositories;
+using PrimeiraApi.Service.CategoriaService;
 using PrimeiraApi.Service.ProdutoService;
 using PrimeiraApi.Service.UsuarioServic;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,8 @@ builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<UsuarioLoginValideitor>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 
 
