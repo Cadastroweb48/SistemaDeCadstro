@@ -29,7 +29,7 @@ namespace PrimeiraApi.Service.ProdutoService
 				Pd_ImagenUrl = p.Pd_ImagenUrl,
 				Pd_Preco = p.Pd_Preco,
 		        CategoriaId = p.CategoriaId,
-				CategoriaNome = p.Categoria.Cat_Nome,
+				CategoriaNome = p.Categoria?.Cat_Nome,
 				DataCadastro = p.DataCadastro,
 
 
@@ -46,26 +46,35 @@ namespace PrimeiraApi.Service.ProdutoService
 
 			return new ProdutoReandDto
 			{
-				Id = produto.Pd_Id,
-				Nome = produto.Pd_Nome,
-				Quantidade = produto.Pd_Quantidade,
+				Pd_Nome = produto.Pd_Nome,
+				Pd_Quantidade = produto.Pd_Quantidade,
+				Pd_Descricao = produto.Pd_Descricao,
+				Pd_ImagenUrl = produto.Pd_ImagenUrl,
+				Pd_Preco = produto.Pd_Preco,
+				CategoriaId = produto.CategoriaId,
+				CategoriaNome = produto.Categoria?.Cat_Nome,
+				DataCadastro = produto.DataCadastro,
 
 				
 			};
 		}
 		public async Task Create(ProdutoCreateDto dto)
         {
-			if (string.IsNullOrWhiteSpace(dto.Nome))
+			if (string.IsNullOrWhiteSpace(dto.Pd_Nome))
 				throw new Exception("Nome é obrigatório");
 
-			if (dto.Quantidade < 0)
+			if (dto.Pd_Quantidade < 0)
 				throw new Exception("Quantidade não pode ser negativa");
 
 			var produto =  new Produto {
 
-			   Pd_Nome = dto.Nome,
-               Pd_Quantidade = dto.Quantidade,
-			 
+				Pd_Nome = dto.Pd_Nome,
+				Pd_Quantidade = dto.Pd_Quantidade,
+				Pd_Descricao = dto.Pd_Descricao,
+				Pd_ImagenUrl = dto.Pd_ImagenUrl,
+				Pd_Preco = dto.Pd_Preco,
+				CategoriaId = dto.CategoriaId,
+
 
 			};
 			await _repo.Add(produto);
@@ -77,8 +86,12 @@ namespace PrimeiraApi.Service.ProdutoService
 			if (produto == null)
 				throw new Exception("Produto não encontrado");
 
-			produto.Pd_Nome = dto.Nome;
-			produto.Pd_Quantidade = dto.Quantidade;
+			    produto.Pd_Nome = dto.Pd_Nome;
+			    produto.Pd_Quantidade = dto.Pd_Quantidade;
+			    produto.Pd_Descricao = dto.Pd_Descricao;
+				produto.Pd_ImagenUrl = dto.Pd_ImagenUrl;
+			    produto.Pd_Preco = dto.Pd_Preco;
+			    produto.CategoriaId = dto.CategoriaId;
 			
 			await _repo.Update(produto);
 		}
@@ -91,7 +104,7 @@ namespace PrimeiraApi.Service.ProdutoService
 			if (produto == null)
 				throw new Exception("Produto não encontrado");
 
-			// REGRA DE NEGÓCIO
+			
 			if (produto.Pd_Quantidade > 0)
 				throw new Exception("Não é possível excluir produto com estoque");
 
