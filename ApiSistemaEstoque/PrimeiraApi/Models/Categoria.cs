@@ -14,20 +14,20 @@ namespace PrimeiraApi.Models
 
         [Key]
         public int Cat_Id { get; set; }
-       
-        public string Cat_Nome {  get; set; } = string.Empty;
-       
+        [Required]
+        public string Cat_Nome { get; set; } = string.Empty;
+
 
         public int? Cat_PaiId { get; set; }
 
         [ForeignKey(nameof(Cat_PaiId))]
-		public Categoria? CategoriaPai { get; set; }
+        public Categoria? CategoriaPai { get; set; }
 
         public ICollection<Categoria> SubCategotia { get; set; }
 
 
-		public ICollection<Produto>? Produtos { get; set; }
-	
+        public ICollection<Produto>? Produtos { get; set; }
 
-	}
+
+    }
 }

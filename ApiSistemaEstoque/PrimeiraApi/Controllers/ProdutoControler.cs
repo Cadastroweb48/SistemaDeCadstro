@@ -19,7 +19,10 @@ namespace PrimeiraApi.Controllers
 		}
 		[HttpGet]
 		public async Task<IActionResult> Get()
-	   => Ok(await _service.GetAll());
+		{
+			return Ok(await _service.GetAll());
+		}
+	   
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(int id)

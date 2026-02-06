@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PrimeiraApi.DTOs.CategoriaDto;
 using PrimeiraApi.Models;
+using PrimeiraApi.Service.CategoriaService;
 
 namespace PrimeiraApi.Controllers
 {
@@ -9,50 +10,69 @@ namespace PrimeiraApi.Controllers
     [ApiController]
     public class CategoriaController : ControllerBase
     {
+        private readonly ICategoriaService _service;
+
+        public CategoriaController(ICategoriaService service)
+        {
+            _service = service;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            var categorias = await _service.GetAll();
+            return Ok(categorias);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var categoria = await _service.GetById(id);
+            if (categoria == null) return NotFound();
+            return Ok(categoria);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CategoriaCreateDto), StatusCodes.Status201Created)]
-
-        public IActionResult RegistrarCategoria([FromBody] CategoriaCreateDto request) 
+        [ProducesResponseType(typeof(Categoria), StatusCodes.Status201Created)]
+        public async Task<IActionResult> RegistrarCategoria([FromBody] CategoriaCreateDto request)
         {
-
-            var categoria = new Categoria
-            {
-                Cat_Nome = request.Cat_Nome,
-                Cat_PaiId = request.Cat_PaiId,
-            };
-
-            //_repository.Add(categoria);
-
-            return Created($"/api/categoria/{categoria.Cat_Id}", request);
+            var categoria = await _service.Create(request);
+            return Created($"/api/categoria/{categoria.Cat_Id}", categoria);
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-
-        public IActionResult GetById([FromRoute] int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateCategoria([FromRoute] int id, [FromBody] CategoriaUpdateDto request)
         {
-            return Created();
+            try
+            {
+                var categoria = await _service.Update(id, request);
+                return Ok(categoria);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-
-        [HttpPut]
-
-        public IActionResult UpdateCategoria([FromBody] CategoriaUpdateDto request)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
-            return NoContent();
+            try
+            {
+                await _service.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
-
-
     }
-
-    
 }

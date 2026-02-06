@@ -16,7 +16,9 @@ namespace PrimeiraApi.Repositories
 
         public async Task<List<Produto>> GetAll()
         {
-            return await _context.Produto.Include(p => p.Categoria).ToListAsync();
+            return await _context.Produto
+                .Include(p => p.Categoria)
+                .ToListAsync();
         }
 
         public async Task<Produto?> GetById(int id)
