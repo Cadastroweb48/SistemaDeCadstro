@@ -39,8 +39,20 @@ namespace PrimeiraApi.Controllers
         [ProducesResponseType(typeof(Categoria), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegistrarCategoria([FromBody] CategoriaCreateDto request)
         {
-            var categoria = await _service.Create(request);
-            return Created($"/api/categoria/{categoria.Cat_Id}", categoria);
+            try
+            {
+                var categoria = await _service.Create(request);
+                return Created($"/api/categoria/{categoria.Cat_Id}", categoria);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno no servidor.");
+            }
+            
         }
 
         [HttpPut("{id}")]

@@ -25,6 +25,11 @@ namespace PrimeiraApi.Service.CategoriaService
 
         public async Task<Categoria> Create(CategoriaCreateDto dto)
         {
+
+            if (string.IsNullOrWhiteSpace(dto.Cat_Nome))
+            {
+                throw new ArgumentException("O nome da categoria é obrigatório.");
+            }
             var categoria = new Categoria
             {
                 Cat_Nome = dto.Cat_Nome,

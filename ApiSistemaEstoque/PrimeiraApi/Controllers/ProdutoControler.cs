@@ -42,7 +42,7 @@ namespace PrimeiraApi.Controllers
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno no servidor.");
+				return StatusCode(StatusCodes.Status500InternalServerError     , "Ocorreu um erro interno no servidor.");
 			}
 			
 		}
