@@ -36,7 +36,7 @@ namespace PrimeiraApi.Controllers
 				await _service.Create(dto);
 				return Created("", null);
 			}
-			catch (ArgumentExcept ex)
+			catch (ArgumentException ex)
 			{
 				return BadRequest(ex.Message);
 			}
