@@ -31,8 +31,16 @@ namespace PrimeiraApi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody]ProdutoCreateDto dto)
 		{
-			await _service.Create(dto);
-			return Created("", null);
+			try 
+			{
+				await _service.Create(dto);
+				return Created("", null);
+			}
+			catch (ArgumentExcept ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			
 		}
 
 		[HttpPut("{id}")]
