@@ -40,6 +40,10 @@ namespace PrimeiraApi.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
+			catch (Exception ex)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um erro interno no servidor.");
+			}
 			
 		}
 
